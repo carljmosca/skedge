@@ -52,7 +52,7 @@ public class ValoSideBarUI extends AbstractSideBarUI {
         super.init(vaadinRequest);
 
         CssLayout header = new CssLayout();
-        Label lblTitle = new Label("<center>Sledge</center>");
+        Label lblTitle = new Label("<center>Skedge</center>");
 
         error = (String) httpSession.getAttribute(ERROR_ATTRIBUTE);
         email = (String) httpSession.getAttribute(EMAIL_ATTRIBUTE);

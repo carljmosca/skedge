@@ -6,7 +6,6 @@
 package com.github.carljmosca.skedge;
 
 import com.github.carljmosca.skedge.view.AboutView;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
@@ -15,14 +14,14 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BaseView extends VerticalLayout implements View {
 
+    private static final long serialVersionUID = 311404133962114188L;
+
     protected boolean validated;
     private String spacer = new String();
-
+    protected boolean adminRequired;
 
     public BaseView() {
 
@@ -110,5 +109,8 @@ public class BaseView extends VerticalLayout implements View {
         }
     }
 
+    public boolean isAdminRequired() {
+        return adminRequired;
+    }
     
 }

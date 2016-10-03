@@ -19,7 +19,7 @@ import org.vaadin.spring.sidebar.annotation.FontAwesomeIcon;
 import org.vaadin.spring.sidebar.annotation.SideBarItem;
 
 @SpringView(name = PersonView.VIEW_NAME)
-@SideBarItem(sectionId = Sections.SUBMISSION,
+@SideBarItem(sectionId = Sections.MAIN,
         caption = "People",
         order = 30)
 @FontAwesomeIcon(FontAwesome.USERS)

@@ -5,6 +5,7 @@
  */
 package com.github.carljmosca.skedge;
 
+import com.github.carljmosca.skedge.view.SettingsView;
 import com.vaadin.spring.access.ViewAccessControl;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.ui.UI;
@@ -14,7 +15,10 @@ public class SkedgeViewAccessControl implements ViewAccessControl {
 
     @Override
     public boolean isAccessGranted(UI ui, String viewName) {
-        
+
+        if (SettingsView.VIEW_NAME.equals(viewName)) {
+            return false;
+        }
 //        if (ValoSideBarUI.get().email == null || ValoSideBarUI.get().email.isEmpty()) {
 //            return false;
 //        }
@@ -22,5 +26,4 @@ public class SkedgeViewAccessControl implements ViewAccessControl {
         return true;
     }
 
-    
 }
