@@ -1,0 +1,1 @@
+docker run --name ipoc-ui -p 19080:8080 -e MYSQL_PORT_3306_TCP_ADDR=vaeb3-mysql1.vaeb.circ4.dcn -e MYSQL_PORT_3306_TCP_PORT=3306 -e MYSQL_ENV_MYSQL_DB_USERNAME=ipoc -e MYSQL_ENV_MYSQL_DB_PASSWORD="Deploy;It" -e COURT_NAME=vaeb -e COURT_INSTANCE=test repo.cad.ao.dcn/ipoc-ui:latest
