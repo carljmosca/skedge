@@ -61,4 +61,9 @@ public abstract class AbstractSideBarUI extends UI {
             message.setValue(String.format("Selected option is not available: %s", event.getViewName()));
         }
     }
+
+    public void setItemFilter(AbstractSideBar.ItemFilter itemFilter) {
+
+    }
+
 }

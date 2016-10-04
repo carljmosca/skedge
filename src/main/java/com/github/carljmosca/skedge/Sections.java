@@ -11,13 +11,15 @@ import org.vaadin.spring.sidebar.annotation.SideBarSections;
 
 @SideBarSections({
 
-        @SideBarSection(id = Sections.MAIN, caption = "Main")
+        @SideBarSection(id = Sections.MAIN, caption = "Main"),
+        @SideBarSection(id = Sections.ADMIN, caption = "Admin")
 
 })
+
 @Component
 public class Sections {
 
-
     public static final String MAIN = "main";
+    public static final String ADMIN = "admin";
     
 }

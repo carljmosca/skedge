@@ -25,6 +25,7 @@
         <vaadin.version>7.7.3</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <vaadin.theme>valo</vaadin.theme>
+        <vaadin.spring.addons>0.0.8-SNAPSHOT</vaadin.spring.addons>
         <docker.image.prefix>carljmosca</docker.image.prefix>
     </properties>
     
@@ -50,12 +51,12 @@
         <dependency>
             <groupId>org.vaadin.spring.addons</groupId>
             <artifactId>vaadin-spring-addon-sidebar</artifactId>
-            <version>0.0.7-SNAPSHOT</version>
+            <version>${vaadin.spring.addons}</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.spring.addons</groupId>
             <artifactId>vaadin-spring-addon-i18n</artifactId>
-            <version>0.0.7-SNAPSHOT</version>
+            <version>${vaadin.spring.addons}</version>
         </dependency>
 
         <dependency>

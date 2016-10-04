@@ -14,6 +14,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.shared.ui.label.ContentMode;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.i18n.annotation.EnableI18N;
@@ -32,6 +33,8 @@ public class ValoSideBarUI extends AbstractSideBarUI {
     ValoSideBar sideBar;
     @Autowired
     private HttpSession httpSession;
+    @Autowired
+    ValoSideBarItemFilter filter;
 
     public static final String ERROR_ATTRIBUTE = "ERROR";
     public static final String EMAIL_ATTRIBUTE = "EMAIL";
@@ -45,6 +48,11 @@ public class ValoSideBarUI extends AbstractSideBarUI {
 
     public ValoSideBarUI() {
 
+    }
+    
+    @PostConstruct
+    public void setup() {
+        sideBar.setItemFilter(filter);        
     }
 
     @Override

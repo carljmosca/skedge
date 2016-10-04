@@ -13,6 +13,8 @@ import com.vaadin.ui.UI;
 @SpringComponent
 public class SkedgeViewAccessControl implements ViewAccessControl {
 
+    //TODO: modify to respect logged in user
+    
     @Override
     public boolean isAccessGranted(UI ui, String viewName) {
 
