@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Qualifier
 @Retention(RUNTIME)
 @Target({FIELD,PARAMETER})
-public abstract @interface CustomerEvent {
+public abstract @interface PersonEvent {
     
     Type value();
 

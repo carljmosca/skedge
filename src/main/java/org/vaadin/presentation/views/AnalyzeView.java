@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.vaadin.backend.CustomerService;
+import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.PersonStatus;
 import org.vaadin.backend.domain.Gender;
@@ -47,7 +47,7 @@ import com.vaadin.ui.Panel;
 public class AnalyzeView extends MVerticalLayout implements View {
 
     @Inject
-    CustomerService service;
+    PersonService service;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {

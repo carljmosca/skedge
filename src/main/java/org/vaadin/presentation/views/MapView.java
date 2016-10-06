@@ -10,7 +10,7 @@ import org.vaadin.addon.leaflet.LeafletClickEvent;
 import org.vaadin.addon.leaflet.LeafletClickListener;
 import org.vaadin.addon.leaflet.control.LZoom;
 import org.vaadin.addon.leaflet.shared.ControlPosition;
-import org.vaadin.backend.CustomerService;
+import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.cdiviewmenu.ViewMenuItem;
 import org.vaadin.viritin.label.Header;
@@ -28,7 +28,7 @@ import com.vaadin.ui.Notification;
 public class MapView extends MVerticalLayout implements View {
 
     @Inject
-    CustomerService service;
+    PersonService service;
 
     LMap worldMap = new LMap();
 
@@ -50,14 +50,14 @@ public class MapView extends MVerticalLayout implements View {
         LOpenStreetMapLayer osm = new LOpenStreetMapLayer();
         osm.setDetectRetina(true);
         worldMap.addComponent(osm);
-        for (final Person customer : service.findAll()) {
-            if(customer.getLocation() != null) {
-                LMarker marker = new LMarker(customer.getLocation());
+        for (final Person person : service.findAll()) {
+            if(person.getLocation() != null) {
+                LMarker marker = new LMarker(person.getLocation());
                 marker.addClickListener(new LeafletClickListener() {
                     @Override
                     public void onClick(LeafletClickEvent event) {
                         Notification.show(
-                                "Customer: " + customer.getFirstName() + " " + customer.
+                                "Person: " + person.getFirstName() + " " + person.
                                 getLastName());
                     }
                 });

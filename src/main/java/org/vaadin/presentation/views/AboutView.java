@@ -3,7 +3,7 @@ package org.vaadin.presentation.views;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.vaadin.backend.CustomerService;
+import org.vaadin.backend.PersonService;
 import org.vaadin.cdiviewmenu.ViewMenuItem;
 import org.vaadin.viritin.label.RichText;
 import org.vaadin.viritin.layouts.MVerticalLayout;
@@ -25,7 +25,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class AboutView extends MVerticalLayout implements View {
 
     @Inject
-    CustomerService service;
+    PersonService service;
 
     @PostConstruct
     void init() {

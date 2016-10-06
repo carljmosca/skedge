@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name="Person.findAll",
                 query="SELECT c FROM Person c"),
-        @NamedQuery(name="Customer.findByName",
+        @NamedQuery(name="Person.findByName",
                 query="SELECT c FROM Person c WHERE LOWER(c.firstName) LIKE :filter OR LOWER(c.lastName) LIKE :filter"),
 })
 @Entity

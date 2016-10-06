@@ -6,12 +6,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.vaadin.backend.CustomerService;
+import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.cdiviewmenu.ViewMenuItem;
 import org.vaadin.presentation.AppUI;
 import org.vaadin.presentation.ScreenSize;
-import org.vaadin.presentation.views.CustomerEvent.Type;
+import org.vaadin.presentation.views.PersonEvent.Type;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTable;
 import org.vaadin.viritin.fields.MValueChangeEvent;
@@ -37,21 +37,21 @@ import com.vaadin.ui.UI;
  * A view that lists Customers in a Table and lets user to choose one for
  * editing. There is also RIA features like on the fly filtering.
  */
-@CDIView("customers")
+@CDIView("persons")
 @ViewMenuItem(icon = FontAwesome.USERS, order = ViewMenuItem.BEGINNING)
-public class CustomerListView extends MVerticalLayout implements View {
+public class PersonListView extends MVerticalLayout implements View {
 
     @Inject
-    private CustomerService service;
+    private PersonService service;
 
     @Inject
-    CustomerForm customerEditor;
+    PersonForm personEditor;
 
     // Introduce and configure some UI components used on this view
-    MTable<Person> customerTable = new MTable(Person.class).withFullWidth().
+    MTable<Person> personTable = new MTable(Person.class).withFullWidth().
             withFullHeight();
 
-    MHorizontalLayout mainContent = new MHorizontalLayout(customerTable).
+    MHorizontalLayout mainContent = new MHorizontalLayout(personTable).
             withFullWidth().withMargin(false);
 
     TextField filter = new TextField();
@@ -63,7 +63,7 @@ public class CustomerListView extends MVerticalLayout implements View {
 
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
-                    addCustomer();
+                    addPerson();
                 }
             });
 
@@ -74,11 +74,11 @@ public class CustomerListView extends MVerticalLayout implements View {
          * Add value change listener to table that opens the selected customer into
          * an editor.
          */
-        customerTable.addMValueChangeListener(new MValueChangeListener<Person>() {
+        personTable.addMValueChangeListener(new MValueChangeListener<Person>() {
 
             @Override
             public void valueChange(MValueChangeEvent<Person> event) {
-                editCustomer(event.getValue());
+                editPerson(event.getValue());
             }
         });
 
@@ -92,7 +92,7 @@ public class CustomerListView extends MVerticalLayout implements View {
         filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
-                listCustomers(textChangeEvent.getText());
+                listPersons(textChangeEvent.getText());
             }
         });
 
@@ -115,7 +115,7 @@ public class CustomerListView extends MVerticalLayout implements View {
                             }
                 });
 
-        listCustomers();
+        listPersons();
     }
 
     /**
@@ -160,14 +160,14 @@ public class CustomerListView extends MVerticalLayout implements View {
      */
     private void adjustTableColumns() {
         if (ScreenSize.getScreenSize() == ScreenSize.LARGE) {
-            customerTable.setVisibleColumns("firstName", "lastName", "email",
+            personTable.setVisibleColumns("firstName", "lastName", "email",
                     "status");
-            customerTable.setColumnHeaders("First name", "Last name", "Email",
+            personTable.setColumnHeaders("First name", "Last name", "Email",
                     "Status");
         } else {
             // Only show one (generated) column with combined first + last name
-            if (customerTable.getColumnGenerator("name") == null) {
-                customerTable.addGeneratedColumn("name",
+            if (personTable.getColumnGenerator("name") == null) {
+                personTable.addGeneratedColumn("name",
                         new Table.ColumnGenerator() {
                             @Override
                             public Object generateCell(Table table, Object o,
@@ -178,11 +178,11 @@ public class CustomerListView extends MVerticalLayout implements View {
                         });
             }
             if (ScreenSize.getScreenSize() == ScreenSize.MEDIUM) {
-                customerTable.setVisibleColumns("name", "email");
-                customerTable.setColumnHeaders("Name", "Email");
+                personTable.setVisibleColumns("name", "email");
+                personTable.setColumnHeaders("Name", "Email");
             } else {
-                customerTable.setVisibleColumns("name");
-                customerTable.setColumnHeaders("Name");
+                personTable.setVisibleColumns("name");
+                personTable.setColumnHeaders("Name");
             }
         }
     }
@@ -193,58 +193,58 @@ public class CustomerListView extends MVerticalLayout implements View {
     // In a big project, consider using separate controller/presenter
     // for improved testability. MVP is a popular pattern for large
     // Vaadin applications.
-    private void listCustomers() {
+    private void listPersons() {
         // Here we just fetch data straight from the EJB.
         //
         // If you expect a huge amount of data, do proper paging,
         // or use lazy loading.
         // See: https://github.com/viritin/viritin/wiki/Lazy-loading-in-Viritin
         if(filter.getValue() == null) {
-            customerTable.setBeans(new ArrayList<>(service.findAll()));
-            customerTable.sort();
+            personTable.setBeans(new ArrayList<>(service.findAll()));
+            personTable.sort();
         } else {
-            listCustomers(filter.getValue());
+            listPersons(filter.getValue());
         }
     }
 
-    private void listCustomers(String filterString) {
-        customerTable.setBeans(new ArrayList<>(service.findByName(filterString)));
-        customerTable.sort();
+    private void listPersons(String filterString) {
+        personTable.setBeans(new ArrayList<>(service.findByName(filterString)));
+        personTable.sort();
     }
 
-    void editCustomer(Person customer) {
-        if (customer != null) {
-            openEditor(customer);
+    void editPerson(Person person) {
+        if (person != null) {
+            openEditor(person);
         } else {
             closeEditor();
         }
     }
 
-    void addCustomer() {
+    void addPerson() {
         openEditor(new Person());
     }
 
-    private void openEditor(Person customer) {
-        customerEditor.setEntity(customer);
+    private void openEditor(Person person) {
+        personEditor.setEntity(person);
         // display next to table on desktop class screens
         if (ScreenSize.getScreenSize() == ScreenSize.LARGE) {
-            mainContent.addComponent(customerEditor);
-            customerEditor.focusFirst();
+            mainContent.addComponent(personEditor);
+            personEditor.focusFirst();
         } else {
             // Replace this view with the editor in smaller devices
             AppUI.get().getContentLayout().
-                    replaceComponent(this, customerEditor);
+                    replaceComponent(this, personEditor);
         }
     }
 
     private void closeEditor() {
         // As we display the editor differently in different devices,
         // close properly in each modes
-        if (customerEditor.getParent() == mainContent) {
-            mainContent.removeComponent(customerEditor);
+        if (personEditor.getParent() == mainContent) {
+            mainContent.removeComponent(personEditor);
         } else {
             AppUI.get().getContentLayout().
-                    replaceComponent(customerEditor, this);
+                    replaceComponent(personEditor, this);
         }
     }
 
@@ -253,19 +253,19 @@ public class CustomerListView extends MVerticalLayout implements View {
      * example events are arised from CustomerForm. The CDI event system
      * is a great mechanism to decouple components.
      */
-    void saveCustomer(@Observes @CustomerEvent(Type.SAVE) Person customer) {
-        listCustomers();
+    void saveCustomer(@Observes @PersonEvent(Type.SAVE) Person customer) {
+        listPersons();
         closeEditor();
     }
 
-    void resetCustomer(@Observes @CustomerEvent(Type.REFRESH) Person customer) {
-        listCustomers();
+    void resetPerson(@Observes @PersonEvent(Type.REFRESH) Person person) {
+        listPersons();
         closeEditor();
     }
 
-    void deleteCustomer(@Observes @CustomerEvent(Type.DELETE) Person customer) {
+    void deletePerson(@Observes @PersonEvent(Type.DELETE) Person person) {
         closeEditor();
-        listCustomers();
+        listPersons();
     }
 
     @Override

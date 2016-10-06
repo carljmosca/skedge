@@ -2,7 +2,7 @@ package org.vaadin.presentation.views;
 
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.vaadin.backend.CustomerService;
+import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.PersonStatus;
 import org.vaadin.backend.domain.Gender;
@@ -31,16 +31,15 @@ import javax.inject.Inject;
  * </p>
  */
 @Dependent
-public class CustomerForm extends AbstractForm<Person> {
+public class PersonForm extends AbstractForm<Person> {
 
     @Inject
-    CustomerService service;
+    PersonService service;
 
     // Prepare some basic field components that our bound to entity property
     // by naming convetion, you can also use PropertyId annotation
     TextField firstName = new MTextField("First name").withFullWidth();
     TextField lastName = new MTextField("Last name").withFullWidth();
-    DateField birthDate = new DateField("Birth day");
     // Select to another entity, options are populated in the init method
     TypedSelect<PersonStatus> status = new TypedSelect().
             withCaption("Status");
@@ -53,12 +52,11 @@ public class CustomerForm extends AbstractForm<Person> {
         setStyleName(ValoTheme.LAYOUT_CARD);
 
         return new MVerticalLayout(
-                new Header("Edit customer").setHeaderLevel(3),
+                new Header("Edit person").setHeaderLevel(3),
                 new MFormLayout(
                         firstName,
                         lastName,
                         email,
-                        birthDate,
                         gender,
                         status
                 ).withFullWidth(),
@@ -88,7 +86,7 @@ public class CustomerForm extends AbstractForm<Person> {
                      * The Customer object uses optimitic locking with the 
                      * version field. Notify user the editing didn't succeed.
                      */
-                    Notification.show("The customer was concurrently edited "
+                    Notification.show("The person was concurrently edited "
                             + "by someone else. Your changes were discarded.",
                             Notification.Type.ERROR_MESSAGE);
                     refrehsEvent.fire(entity);
@@ -123,14 +121,14 @@ public class CustomerForm extends AbstractForm<Person> {
      * demonstrating here how all CDI stuff is available for Vaadin apps.
      */
     @Inject
-    @CustomerEvent(CustomerEvent.Type.SAVE)
+    @PersonEvent(PersonEvent.Type.SAVE)
     javax.enterprise.event.Event<Person> saveEvent;
 
     @Inject
-    @CustomerEvent(CustomerEvent.Type.REFRESH)
+    @PersonEvent(PersonEvent.Type.REFRESH)
     javax.enterprise.event.Event<Person> refrehsEvent;
 
     @Inject
-    @CustomerEvent(CustomerEvent.Type.DELETE)
+    @PersonEvent(PersonEvent.Type.DELETE)
     javax.enterprise.event.Event<Person> deleteEvent;
 }

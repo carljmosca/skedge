@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Stateless
-public class CustomerService {
+public class PersonService {
 
     @PersistenceContext(unitName = "customer-pu")
     private EntityManager entityManager;
