@@ -177,23 +177,19 @@ public class AnalyzeView extends MVerticalLayout implements View {
 
     }
 
-    private Component createStatusFunnel(List<Person> customerData) {
+    private Component createStatusFunnel(List<Person> personData) {
         int[] values = new int[PersonStatus.values().length];
-        for (Person c : customerData) {
+        for (Person c : personData) {
             if (c.getStatus() != null) {
                 values[c.getStatus().ordinal()]++;
             }
         }
         Chart chart = getBasicChart(ChartType.FUNNEL);
         DataSeries dataSeries = new DataSeries();
-        dataSeries.add(new DataSeriesItem("Imported lead",
-                values[PersonStatus.ImportedLead.ordinal()]));
-        dataSeries.add(new DataSeriesItem("Not contacted",
-                values[PersonStatus.NotContacted.ordinal()]));
-        dataSeries.add(new DataSeriesItem("Contacted",
-                values[PersonStatus.Contacted.ordinal()]));
-        dataSeries.add(new DataSeriesItem("Customer",
-                values[PersonStatus.Customer.ordinal()]));
+        dataSeries.add(new DataSeriesItem("Inactive",
+                values[PersonStatus.Inactive.ordinal()]));
+        dataSeries.add(new DataSeriesItem("Active",
+                values[PersonStatus.Active.ordinal()]));
 
         Configuration conf = chart.getConfiguration();
         conf.getChart().setMarginRight(75);

@@ -56,7 +56,7 @@ public class PersonListView extends MVerticalLayout implements View {
 
     TextField filter = new TextField();
 
-    Header header = new Header("Customers").setHeaderLevel(2);
+    Header header = new Header("Persons").setHeaderLevel(2);
 
     Button addButton = new MButton(FontAwesome.EDIT,
             new Button.ClickListener() {
@@ -88,7 +88,7 @@ public class PersonListView extends MVerticalLayout implements View {
          * events are sent to the server when e.g. user holds a tiny pause
          * while typing or hits enter.
          * */
-        filter.setInputPrompt("Filter customers...");
+        filter.setInputPrompt("Filter persons...");
         filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
@@ -253,7 +253,7 @@ public class PersonListView extends MVerticalLayout implements View {
      * example events are arised from CustomerForm. The CDI event system
      * is a great mechanism to decouple components.
      */
-    void saveCustomer(@Observes @PersonEvent(Type.SAVE) Person customer) {
+    void savePerson(@Observes @PersonEvent(Type.SAVE) Person person) {
         listPersons();
         closeEditor();
     }
