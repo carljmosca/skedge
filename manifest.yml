@@ -1,0 +1,12 @@
+---
+declared-services:
+  vaadindb:
+    label: elephantsql
+    plan: turtle
+applications:
+- name: vaadinApp
+  instances: 1
+  memory: 512M
+  path: target/skedge.war
+  services:
+    - skedge-elephantsql
