@@ -8,11 +8,8 @@ import javax.inject.Inject;
 import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.PersonStatus;
-import org.vaadin.backend.domain.Gender;
 import org.vaadin.cdiviewmenu.ViewMenuItem;
-import org.vaadin.presentation.ScreenSize;
 import org.vaadin.viritin.label.Header;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MMarginInfo;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
@@ -22,12 +19,10 @@ import com.vaadin.addon.charts.model.Configuration;
 import com.vaadin.addon.charts.model.DataSeries;
 import com.vaadin.addon.charts.model.DataSeriesItem;
 import com.vaadin.addon.charts.model.HorizontalAlign;
-import com.vaadin.addon.charts.model.Labels;
 import com.vaadin.addon.charts.model.Legend;
 import com.vaadin.addon.charts.model.ListSeries;
 import com.vaadin.addon.charts.model.PlotOptionsColumn;
 import com.vaadin.addon.charts.model.PlotOptionsFunnel;
-import com.vaadin.addon.charts.model.PlotOptionsPie;
 import com.vaadin.addon.charts.model.Stacking;
 import com.vaadin.addon.charts.model.VerticalAlign;
 import com.vaadin.addon.charts.model.XAxis;
@@ -59,41 +54,6 @@ public class AnalyzeView extends MVerticalLayout implements View {
         List<Person> personData = service.findAll();
         add(ageDistribution(personData));
         final Component funnel = createStatusFunnel(personData);
-        final Component gender = genderDistribution(personData);
-        if (ScreenSize.getScreenSize() == ScreenSize.SMALL) {
-            addComponents(funnel, gender);
-        } else {
-            addComponent(new MHorizontalLayout(funnel, gender).withFullWidth());
-        }
-
-    }
-
-    private Component genderDistribution(List<Person> customerData) {
-        int women = 0, men = 0;
-        for (Person c : customerData) {
-            if (c.getGender() == Gender.Female) {
-                women++;
-            } else {
-                men++;
-            }
-        }
-
-        Chart chart = getBasicChart(ChartType.PIE);
-
-        Configuration conf = chart.getConfiguration();
-
-        PlotOptionsPie plotOptions = new PlotOptionsPie();
-        Labels dataLabels = new Labels();
-        dataLabels.setEnabled(true);
-        dataLabels.setFormat("{point.name}: {percentage:.0f}%");
-        plotOptions.setDataLabels(dataLabels);
-        conf.setPlotOptions(plotOptions);
-
-        final DataSeries series = new DataSeries();
-        series.add(new DataSeriesItem("Men", men));
-        series.add(new DataSeriesItem("Women", women));
-        conf.setSeries(series);
-        return wrapInPanel(chart, "Gender");
     }
 
     private static Panel wrapInPanel(Chart chart, String caption) {

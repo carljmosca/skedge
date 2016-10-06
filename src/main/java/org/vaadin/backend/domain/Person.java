@@ -31,8 +31,6 @@ public class Person implements Serializable {
 
     private PersonStatus status;
 
-    private Gender gender;
-
     @NotNull(message = "Email is required")
     @Pattern(regexp = ".+@.+\\.[a-z]+", message = "Must be valid email")
     private String email;
@@ -118,14 +116,6 @@ public class Person implements Serializable {
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 
     public void setLocation(Point location) {

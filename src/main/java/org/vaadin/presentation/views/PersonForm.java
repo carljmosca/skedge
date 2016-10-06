@@ -5,7 +5,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.backend.PersonService;
 import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.PersonStatus;
-import org.vaadin.backend.domain.Gender;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm;
@@ -43,7 +42,6 @@ public class PersonForm extends AbstractForm<Person> {
     // Select to another entity, options are populated in the init method
     TypedSelect<PersonStatus> status = new TypedSelect().
             withCaption("Status");
-    OptionGroup gender = new OptionGroup("Gender");
     TextField email = new MTextField("Email").withFullWidth();
 
     @Override
@@ -57,7 +55,6 @@ public class PersonForm extends AbstractForm<Person> {
                         firstName,
                         lastName,
                         email,
-                        gender,
                         status
                 ).withFullWidth(),
                 getToolbar()
@@ -69,8 +66,6 @@ public class PersonForm extends AbstractForm<Person> {
         setEagerValidation(true);
         status.setWidthUndefined();
         status.setOptions(PersonStatus.values());
-        gender.addItems((Object[]) Gender.values());
-        gender.setStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
         setSavedHandler(new SavedHandler<Person>() {
 
             @Override
