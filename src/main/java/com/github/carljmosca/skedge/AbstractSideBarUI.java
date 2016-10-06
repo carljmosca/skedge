@@ -46,7 +46,7 @@ public abstract class AbstractSideBarUI extends UI {
 
     protected abstract AbstractSideBar getSideBar();
 
-    private class ErrorView extends VerticalLayout implements View {
+    private class ErrorView extends BaseView {
 
         private static final long serialVersionUID = -1349484555495574658L;
         private final Label message;

@@ -5,7 +5,7 @@
  */
 package com.github.carljmosca.skedge;
 
-import com.github.carljmosca.skedge.view.SettingsView;
+import com.github.carljmosca.skedge.view.Settings;
 import org.springframework.stereotype.Component;
 import org.vaadin.spring.sidebar.SideBarItemDescriptor;
 import org.vaadin.spring.sidebar.components.AbstractSideBar.ItemFilter;
@@ -23,8 +23,8 @@ public class ValoSideBarItemFilter implements ItemFilter {
     @Override
     public boolean passesFilter(SideBarItemDescriptor descriptor) {
         
-        if ("Settings".equals(descriptor.getCaption()))
-            return false;
+//        if ("Settings".equals(descriptor.getCaption()))
+//            return false;
         return true;
     }
     

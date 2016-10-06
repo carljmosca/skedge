@@ -17,13 +17,13 @@ import org.vaadin.spring.sidebar.annotation.SideBarItem;
  *
  * @author moscac
  */
-@SpringView(name = SettingsView.VIEW_NAME)
+@SpringView(name = Settings.VIEW_NAME)
 @SideBarItem(sectionId = Sections.MAIN,
         caption = "Settings",
         order = 900)
 @FontAwesomeIcon(FontAwesome.INFO)
 @ViewScope
-public class SettingsView extends BaseView {
+public class Settings extends BaseView {
 
     public static final String VIEW_NAME = "settings";
     private static final long serialVersionUID = -8161532583470696182L;
