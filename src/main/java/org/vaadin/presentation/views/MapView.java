@@ -35,7 +35,7 @@ public class MapView extends MVerticalLayout implements View {
     @PostConstruct
     void init() {
 
-        add(new Header("Customers on map").setHeaderLevel(2));
+        add(new Header("Persons on map").setHeaderLevel(2));
         expand(worldMap);
         setMargin(new MarginInfo(false, true, true, true));
 

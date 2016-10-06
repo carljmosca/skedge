@@ -54,12 +54,12 @@ public class AnalyzeView extends MVerticalLayout implements View {
         removeAllComponents();
 
         setMargin(new MMarginInfo(false, true));
-        add(new Header("Customer analysis").setHeaderLevel(2));
+        add(new Header("Person analysis").setHeaderLevel(2));
 
-        List<Person> customerData = service.findAll();
-        add(ageDistribution(customerData));
-        final Component funnel = createStatusFunnel(customerData);
-        final Component gender = genderDistribution(customerData);
+        List<Person> personData = service.findAll();
+        add(ageDistribution(personData));
+        final Component funnel = createStatusFunnel(personData);
+        final Component gender = genderDistribution(personData);
         if (ScreenSize.getScreenSize() == ScreenSize.SMALL) {
             addComponents(funnel, gender);
         } else {
