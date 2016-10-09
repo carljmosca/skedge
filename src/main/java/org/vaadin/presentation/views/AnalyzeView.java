@@ -18,14 +18,7 @@ import com.vaadin.addon.charts.model.ChartType;
 import com.vaadin.addon.charts.model.Configuration;
 import com.vaadin.addon.charts.model.DataSeries;
 import com.vaadin.addon.charts.model.DataSeriesItem;
-import com.vaadin.addon.charts.model.HorizontalAlign;
-import com.vaadin.addon.charts.model.Legend;
-import com.vaadin.addon.charts.model.ListSeries;
-import com.vaadin.addon.charts.model.PlotOptionsColumn;
 import com.vaadin.addon.charts.model.PlotOptionsFunnel;
-import com.vaadin.addon.charts.model.Stacking;
-import com.vaadin.addon.charts.model.VerticalAlign;
-import com.vaadin.addon.charts.model.XAxis;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -52,7 +45,7 @@ public class AnalyzeView extends MVerticalLayout implements View {
         add(new Header("Person analysis").setHeaderLevel(2));
 
         List<Person> personData = service.findAll();
-        add(ageDistribution(personData));
+//        add(ageDistribution(personData));
         final Component funnel = createStatusFunnel(personData);
     }
 
@@ -93,49 +86,49 @@ public class AnalyzeView extends MVerticalLayout implements View {
         return chart;
     }
 
-    private Component ageDistribution(List<Person> customerData) {
-        Integer[] menValues = new Integer[AgeGroup.values().length];
-        Integer[] womenValues = new Integer[AgeGroup.values().length];
-        for (int i = 0; i < AgeGroup.values().length; i++) {
-            menValues[i] = 0;
-            womenValues[i] = 0;
-        }
-        for (Person c : customerData) {
-        }
-
-        Chart chart = getBasicChart(ChartType.COLUMN);
-
-        Configuration conf = chart.getConfiguration();
-
-        XAxis xAxis = new XAxis();
-        String[] names = new String[AgeGroup.values().length];
-        for (AgeGroup g : AgeGroup.values()) {
-            names[g.ordinal()] = String.format("%s-%s", g.min,
-                    g.max);
-        }
-        xAxis.setCategories(names);
-        conf.addxAxis(xAxis);
-
-        conf.getyAxis().setTitle("");
-
-        Legend legend = new Legend();
-        legend.setHorizontalAlign(HorizontalAlign.RIGHT);
-        legend.setFloating(true);
-        legend.setVerticalAlign(VerticalAlign.TOP);
-        legend.setX(-5);
-        legend.setY(5);
-        conf.setLegend(legend);
-
-        PlotOptionsColumn plotOptions = new PlotOptionsColumn();
-        plotOptions.setStacking(Stacking.NORMAL);
-        conf.setPlotOptions(plotOptions);
-
-        conf.addSeries(new ListSeries("Men", menValues));
-        conf.addSeries(new ListSeries("Women", womenValues));
-
-        return wrapInPanel(chart, "Age distribution");
-
-    }
+//    private Component ageDistribution(List<Person> customerData) {
+//        Integer[] menValues = new Integer[AgeGroup.values().length];
+//        Integer[] womenValues = new Integer[AgeGroup.values().length];
+//        for (int i = 0; i < AgeGroup.values().length; i++) {
+//            menValues[i] = 0;
+//            womenValues[i] = 0;
+//        }
+//        for (Person c : customerData) {
+//        }
+//
+//        Chart chart = getBasicChart(ChartType.COLUMN);
+//
+//        Configuration conf = chart.getConfiguration();
+//
+//        XAxis xAxis = new XAxis();
+//        String[] names = new String[AgeGroup.values().length];
+//        for (AgeGroup g : AgeGroup.values()) {
+//            names[g.ordinal()] = String.format("%s-%s", g.min,
+//                    g.max);
+//        }
+//        xAxis.setCategories(names);
+//        conf.addxAxis(xAxis);
+//
+//        conf.getyAxis().setTitle("");
+//
+//        Legend legend = new Legend();
+//        legend.setHorizontalAlign(HorizontalAlign.RIGHT);
+//        legend.setFloating(true);
+//        legend.setVerticalAlign(VerticalAlign.TOP);
+//        legend.setX(-5);
+//        legend.setY(5);
+//        conf.setLegend(legend);
+//
+//        PlotOptionsColumn plotOptions = new PlotOptionsColumn();
+//        plotOptions.setStacking(Stacking.NORMAL);
+//        conf.setPlotOptions(plotOptions);
+//
+//        conf.addSeries(new ListSeries("Men", menValues));
+//        conf.addSeries(new ListSeries("Women", womenValues));
+//
+//        return wrapInPanel(chart, "Age distribution");
+//
+//    }
 
     private Component createStatusFunnel(List<Person> personData) {
         int[] values = new int[PersonStatus.values().length];

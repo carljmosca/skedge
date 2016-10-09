@@ -6,16 +6,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A standard JPA entity, like in any other Java application.
  */
 @NamedQueries({
-        @NamedQuery(name="Person.findAll",
-                query="SELECT c FROM Person c"),
-        @NamedQuery(name="Person.findByName",
-                query="SELECT c FROM Person c WHERE LOWER(c.firstName) LIKE :filter OR LOWER(c.lastName) LIKE :filter"),
-})
+    @NamedQuery(name = "Person.findAll", query = "SELECT c FROM Person c")
+    ,
+    @NamedQuery(name = "Person.findByName",
+            query = "SELECT c FROM Person c WHERE LOWER(c.firstName) LIKE :filter OR LOWER(c.lastName) LIKE :filter"),})
 @Entity
 public class Person implements Serializable {
 
@@ -23,7 +24,8 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Version int version;
+    @Version
+    int version;
 
     private String firstName;
 
@@ -37,6 +39,11 @@ public class Person implements Serializable {
 
     @Lob
     private Point location;
+
+    @OneToMany(mappedBy = "person")
+    private List<ScheduleDetail> scheduleDetails;
+    
+    private List<Date> unavailableDays;
 
     public int getId() {
         return id;
@@ -129,4 +136,21 @@ public class Person implements Serializable {
     public boolean isPersisted() {
         return id > 0;
     }
+
+    public List<ScheduleDetail> getScheduleDetails() {
+        return scheduleDetails;
+    }
+
+    public void setScheduleDetails(List<ScheduleDetail> scheduleDetails) {
+        this.scheduleDetails = scheduleDetails;
+    }
+
+    public List<Date> getUnavailableDays() {
+        return unavailableDays;
+    }
+
+    public void setUnavailableDays(List<Date> unavailableDays) {
+        this.unavailableDays = unavailableDays;
+    }
+
 }

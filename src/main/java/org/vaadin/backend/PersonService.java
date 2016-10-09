@@ -11,7 +11,7 @@ import java.util.List;
 @Stateless
 public class PersonService {
 
-    @PersistenceContext(unitName = "customer-pu")
+    @PersistenceContext(unitName = "skedge-pu")
     private EntityManager entityManager;
 
     public void saveOrPersist(Person entity) {
