@@ -16,8 +16,10 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.vaadin.backend.ScheduleService;
 import org.vaadin.backend.domain.ScheduleHeader;
 import org.vaadin.cdiviewmenu.ViewMenuItem;
 import org.vaadin.presentation.AppUI;
@@ -38,8 +40,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @ViewMenuItem(icon = FontAwesome.CALENDAR, order = 100)
 public class ScheduleListView extends MVerticalLayout implements View {
 
-    //@Inject
-    //private ScheduleService service;
+    @Inject
+    private ScheduleService service;
     @Inject
     ScheduleForm scheduleEditor;
 
@@ -136,23 +138,53 @@ public class ScheduleListView extends MVerticalLayout implements View {
         setMargin(new MarginInfo(false, true, true, true));
         expand(mainContent);
     }
-    
+
     private void adjustTableColumns() {
-        
+        if (ScreenSize.getScreenSize() == ScreenSize.LARGE) {
+            scheduleTable.setVisibleColumns("description", "beginDate", "endDate");
+            scheduleTable.setColumnHeaders("Description", "Begin Date", "End Date");
+        } else {
+            // Only show one (generated) column with combined first + last name
+//            if (scheduleTable.getColumnGenerator("name") == null) {
+//                scheduleTable.addGeneratedColumn("name",
+//                        new Table.ColumnGenerator() {
+//                    @Override
+//                    public Object generateCell(Table table, Object o,
+//                            Object o2) {
+//                        Person c = (Person) o;
+//                        return c.getFirstName() + " " + c.getLastName();
+//                    }
+//                });
+//            }
+            if (ScreenSize.getScreenSize() == ScreenSize.MEDIUM) {
+                scheduleTable.setVisibleColumns("description", "beginDate");
+                scheduleTable.setColumnHeaders("Description", "Begin");
+            } else {
+                scheduleTable.setVisibleColumns("description");
+                scheduleTable.setColumnHeaders("Description");
+            }
+        }
     }
-    
+
     void listSchedules() {
-        
+        if(filter.getValue() == null) {
+            scheduleTable.setBeans(new ArrayList<>(service.findAll()));
+            scheduleTable.sort();
+        } else {
+            listSchedules(filter.getValue());
+        }
     }
-    
-    void listSchedules(String filter) {
-        
+
+
+    void listSchedules(String filterString) {
+        scheduleTable.setBeans(new ArrayList<>(service.findByDescription(filterString)));
+        scheduleTable.sort();
     }
 
     void editSchedule(ScheduleHeader scheduleHeader) {
-        
+
     }
-    
+
     void addSchedule() {
         openEditor(new ScheduleHeader());
     }

@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
+import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.ScheduleHeader;
 
 /**
@@ -44,5 +45,15 @@ public class ScheduleService {
         cq.select(cq.from(ScheduleHeader.class));
         return entityManager.createQuery(cq).getResultList();
     }
-    
+
+    public List<ScheduleHeader> findByDescription(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return findAll();
+        }
+        filter = filter.toLowerCase();
+        return entityManager.createNamedQuery("ScheduleHeader.findByDescription",
+                ScheduleHeader.class)
+                .setParameter("filter", filter + "%").getResultList();
+    }
+
 }

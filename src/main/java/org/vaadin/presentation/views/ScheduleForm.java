@@ -6,8 +6,12 @@
 package org.vaadin.presentation.views;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.vaadin.backend.ScheduleService;
@@ -32,12 +36,12 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
 
     // Prepare some basic field components that our bound to entity property
     // by naming convetion, you can also use PropertyId annotation
-    TextField firstName = new MTextField("First name").withFullWidth();
-    TextField lastName = new MTextField("Last name").withFullWidth();
+    TextField description = new MTextField("Description").withFullWidth();
+    DateField beginDate = new DateField("Begin Date");
+    DateField endDate = new DateField("End Date");
     // Select to another entity, options are populated in the init method
     TypedSelect<PersonStatus> status = new TypedSelect().
             withCaption("Status");
-    TextField email = new MTextField("Email").withFullWidth();
 
     @Override
     protected Component createContent() {
@@ -47,13 +51,62 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
         return new MVerticalLayout(
                 new Header("Edit schedule").setHeaderLevel(3),
                 new MFormLayout(
-                        firstName,
-                        lastName,
-                        email,
-                        status
+                        description,
+                        beginDate,
+                        endDate
                 ).withFullWidth(),
                 getToolbar()
         ).withStyleName(ValoTheme.LAYOUT_CARD);
+    }
+
+    @PostConstruct
+    void init() {
+        setEagerValidation(true);
+        status.setWidthUndefined();
+        //status.setOptions(PersonStatus.values());
+        setSavedHandler(new SavedHandler<ScheduleHeader>() {
+
+            @Override
+            public void onSave(ScheduleHeader entity) {
+                try {
+                    // make EJB call to save the entity
+                    service.saveOrPersist(entity);
+                    // fire save event to let other UI components know about
+                    // the change
+                    saveEvent.fire(entity);
+                } catch (EJBException e) {
+                    /*
+                     * The Customer object uses optimitic locking with the 
+                     * version field. Notify user the editing didn't succeed.
+                     */
+                    Notification.show("The person was concurrently edited "
+                            + "by someone else. Your changes were discarded.",
+                            Notification.Type.ERROR_MESSAGE);
+                    refrehsEvent.fire(entity);
+                }
+            }
+        });
+        setResetHandler(new ResetHandler<ScheduleHeader>() {
+
+            @Override
+            public void onReset(ScheduleHeader entity) {
+                refrehsEvent.fire(entity);
+            }
+        });
+        setDeleteHandler(new DeleteHandler<ScheduleHeader>() {
+            @Override
+            public void onDelete(ScheduleHeader entity) {
+                service.deleteEntity(getEntity());
+                deleteEvent.fire(getEntity());
+            }
+        });
+    }
+
+    @Override
+    protected void adjustResetButtonState() {
+        // always enabled in this form
+        getResetButton().setEnabled(true);
+        getDeleteButton().setEnabled(getEntity() != null && getEntity().isPersisted());
     }
 
     /* "CDI interface" to notify decoupled components. Using traditional API to
