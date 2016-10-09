@@ -15,10 +15,8 @@ import javax.ejb.EJBException;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.vaadin.backend.ScheduleService;
-import org.vaadin.backend.domain.PersonStatus;
 import org.vaadin.backend.domain.ScheduleHeader;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.Header;
 import org.vaadin.viritin.layouts.MFormLayout;
@@ -40,8 +38,8 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
     DateField beginDate = new DateField("Begin Date");
     DateField endDate = new DateField("End Date");
     // Select to another entity, options are populated in the init method
-    TypedSelect<PersonStatus> status = new TypedSelect().
-            withCaption("Status");
+    //TypedSelect<PersonStatus> status = new TypedSelect().
+    //        withCaption("Status");
 
     @Override
     protected Component createContent() {
@@ -62,7 +60,7 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
     @PostConstruct
     void init() {
         setEagerValidation(true);
-        status.setWidthUndefined();
+        //status.setWidthUndefined();
         //status.setOptions(PersonStatus.values());
         setSavedHandler(new SavedHandler<ScheduleHeader>() {
 
@@ -79,7 +77,7 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
                      * The Customer object uses optimitic locking with the 
                      * version field. Notify user the editing didn't succeed.
                      */
-                    Notification.show("The person was concurrently edited "
+                    Notification.show("The schedule was concurrently edited "
                             + "by someone else. Your changes were discarded.",
                             Notification.Type.ERROR_MESSAGE);
                     refrehsEvent.fire(entity);
@@ -114,14 +112,14 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
      * demonstrating here how all CDI stuff is available for Vaadin apps.
      */
     @Inject
-    @PersonEvent(PersonEvent.Type.SAVE)
+    @ScheduleEvent(ScheduleEvent.Type.SAVE)
     javax.enterprise.event.Event<ScheduleHeader> saveEvent;
 
     @Inject
-    @PersonEvent(PersonEvent.Type.REFRESH)
+    @ScheduleEvent(ScheduleEvent.Type.REFRESH)
     javax.enterprise.event.Event<ScheduleHeader> refrehsEvent;
 
     @Inject
-    @PersonEvent(PersonEvent.Type.DELETE)
+    @ScheduleEvent(ScheduleEvent.Type.DELETE)
     javax.enterprise.event.Event<ScheduleHeader> deleteEvent;
 }

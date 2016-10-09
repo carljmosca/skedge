@@ -17,6 +17,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -38,11 +39,14 @@ public class ScheduleHeader implements Serializable {
     @Version
     int version;
 
+    @NotNull(message = "Description is required")
     private String description;
 
+    @NotNull(message = "Begin date is required")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date beginDate;
 
+    @NotNull(message = "End date is required")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
 
