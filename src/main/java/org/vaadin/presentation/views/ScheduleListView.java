@@ -18,6 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import org.vaadin.backend.ScheduleService;
 import org.vaadin.backend.domain.ScheduleHeader;
@@ -85,7 +86,7 @@ public class ScheduleListView extends MVerticalLayout implements View {
          * events are sent to the server when e.g. user holds a tiny pause
          * while typing or hits enter.
          * */
-        filter.setInputPrompt("Filter persons...");
+        filter.setInputPrompt("Filter schedules...");
         filter.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
@@ -167,7 +168,7 @@ public class ScheduleListView extends MVerticalLayout implements View {
     }
 
     void listSchedules() {
-        if(filter.getValue() == null) {
+        if (filter.getValue() == null) {
             scheduleTable.setBeans(new ArrayList<>(service.findAll()));
             scheduleTable.sort();
         } else {
@@ -175,14 +176,17 @@ public class ScheduleListView extends MVerticalLayout implements View {
         }
     }
 
-
     void listSchedules(String filterString) {
         scheduleTable.setBeans(new ArrayList<>(service.findByDescription(filterString)));
         scheduleTable.sort();
     }
 
     void editSchedule(ScheduleHeader scheduleHeader) {
-
+        if (scheduleHeader != null) {
+            openEditor(scheduleHeader);
+        } else {
+            closeEditor();
+        }
     }
 
     void addSchedule() {
@@ -200,6 +204,37 @@ public class ScheduleListView extends MVerticalLayout implements View {
             AppUI.get().getContentLayout().
                     replaceComponent(this, scheduleEditor);
         }
+    }
+
+    private void closeEditor() {
+        // As we display the editor differently in different devices,
+        // close properly in each modes
+        if (scheduleEditor.getParent() == mainContent) {
+            mainContent.removeComponent(scheduleEditor);
+        } else {
+            AppUI.get().getContentLayout().
+                    replaceComponent(scheduleEditor, this);
+        }
+    }
+
+    /* These methods gets called by the CDI event system, which is also
+     * available for Vaadin UIs when using Vaadin CDI add-on. In this
+     * example events are arised from CustomerForm. The CDI event system
+     * is a great mechanism to decouple components.
+     */
+    void saveSchedule(@Observes @ScheduleEvent(ScheduleEvent.Type.SAVE) ScheduleHeader schedule) {
+        listSchedules();
+        closeEditor();
+    }
+
+    void resetSchedule(@Observes @ScheduleEvent(ScheduleEvent.Type.REFRESH) ScheduleHeader schedule) {
+        listSchedules();
+        closeEditor();
+    }
+
+    void deleteSchedule(@Observes @ScheduleEvent(ScheduleEvent.Type.DELETE) ScheduleHeader schedule) {
+        closeEditor();
+        listSchedules();
     }
 
     @Override

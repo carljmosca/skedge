@@ -16,6 +16,9 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.vaadin.backend.ScheduleService;
 import org.vaadin.backend.domain.ScheduleHeader;
+import org.vaadin.backend.domain.Shift;
+import org.vaadin.backend.domain.Weekday;
+import org.vaadin.viritin.fields.MTable;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.Header;
@@ -40,13 +43,16 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
     // Select to another entity, options are populated in the init method
     //TypedSelect<PersonStatus> status = new TypedSelect().
     //        withCaption("Status");
-
+    MTable<Shift> shiftTable = new MTable(Shift.class).withFullWidth().
+            withFullHeight();
+    
     @Override
     protected Component createContent() {
 
         setStyleName(ValoTheme.LAYOUT_CARD);
 
-        return new MVerticalLayout(
+        MVerticalLayout layout =
+         new MVerticalLayout(
                 new Header("Edit schedule").setHeaderLevel(3),
                 new MFormLayout(
                         description,
@@ -55,6 +61,12 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
                 ).withFullWidth(),
                 getToolbar()
         ).withStyleName(ValoTheme.LAYOUT_CARD);
+        layout.addComponent(shiftTable);
+        
+        shiftTable.setVisibleColumns("weekday", "shiftTime", "employeeCount");
+        shiftTable.setColumnHeaders("Weekday", "Shift Time", "Employees");
+        shiftTable.setBeans(getEntity().getShifts());
+        return layout;
     }
 
     @PostConstruct

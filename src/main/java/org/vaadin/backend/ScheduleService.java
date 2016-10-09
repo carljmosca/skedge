@@ -10,7 +10,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
-import org.vaadin.backend.domain.Person;
 import org.vaadin.backend.domain.ScheduleHeader;
 
 /**

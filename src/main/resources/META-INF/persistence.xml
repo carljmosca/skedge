@@ -3,6 +3,9 @@
   <persistence-unit name="skedge-pu" transaction-type="JTA">
     <jta-data-source>jdbc/vaadindb</jta-data-source>
     <class>org.vaadin.backend.domain.Person</class>
+    <class>org.vaadin.backend.domain.ScheduleHeader</class>
+    <class>org.vaadin.backend.domain.ScheduleDetail</class>
+    <class>org.vaadin.backend.domain.Shift</class>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
