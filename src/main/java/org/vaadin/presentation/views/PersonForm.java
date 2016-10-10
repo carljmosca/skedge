@@ -81,8 +81,8 @@ public class PersonForm extends AbstractForm<Person> {
                      * The Customer object uses optimitic locking with the 
                      * version field. Notify user the editing didn't succeed.
                      */
-                    Notification.show("The person was concurrently edited "
-                            + "by someone else. Your changes were discarded.",
+                    Notification.show("Record was not saved "
+                            + e.getMessage(),
                             Notification.Type.ERROR_MESSAGE);
                     refrehsEvent.fire(entity);
                 }

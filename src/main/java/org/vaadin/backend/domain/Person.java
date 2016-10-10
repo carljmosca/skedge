@@ -29,6 +29,7 @@ public class Person implements Serializable {
 
     private String firstName;
 
+    @NotNull(message = "Last name is required")
     private String lastName;
 
     private PersonStatus status;
@@ -40,9 +41,9 @@ public class Person implements Serializable {
     @Lob
     private Point location;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "person", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ScheduleDetail> scheduleDetails;
-    
+
     private List<Date> unavailableDays;
 
     public int getId() {

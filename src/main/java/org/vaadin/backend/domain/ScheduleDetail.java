@@ -36,7 +36,7 @@ public class ScheduleDetail implements Serializable {
     private Person person;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HEADER_ID")
+    @JoinColumn(name = "schedule_id")
     private ScheduleHeader scheduleHeader;
 
     @Temporal(javax.persistence.TemporalType.DATE)

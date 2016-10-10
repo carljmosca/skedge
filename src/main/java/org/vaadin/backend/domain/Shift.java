@@ -7,13 +7,14 @@ package org.vaadin.backend.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 
 /**
  *
@@ -22,6 +23,11 @@ import javax.persistence.Version;
 @Entity
 public class Shift implements Serializable {
 
+    public Shift() {
+        employeeCount = 1;
+        shiftTime = "";
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -29,11 +35,14 @@ public class Shift implements Serializable {
     @Version
     int version;
 
+    @NotNull(message = "Weekday is required")
     private Weekday weekday;
+    @NotNull(message = "Shift time is required")
     private String shiftTime;
+    @Min(1)
     private int employeeCount;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HEADER_ID")
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
     private ScheduleHeader scheduleHeader;
 
     public int getId() {

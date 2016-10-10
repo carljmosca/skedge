@@ -8,7 +8,9 @@ package org.vaadin.backend.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +33,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class ScheduleHeader implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -50,10 +52,10 @@ public class ScheduleHeader implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
 
-    @OneToMany(mappedBy = "scheduleHeader")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "scheduleHeader", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ScheduleDetail> scheduleDetails;
     
-    @OneToMany(mappedBy = "scheduleHeader")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "scheduleHeader", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Shift> shifts;
 
     public int getId() {

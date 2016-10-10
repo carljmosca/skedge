@@ -57,13 +57,8 @@ public class ScheduleListView extends MVerticalLayout implements View {
 
     Header header = new Header("Schedules").setHeaderLevel(2);
 
-    Button addButton = new MButton(FontAwesome.EDIT,
-            new Button.ClickListener() {
-
-        @Override
-        public void buttonClick(Button.ClickEvent event) {
-            addSchedule();
-        }
+    Button addButton = new MButton(FontAwesome.EDIT, (Button.ClickEvent event) -> {
+        addSchedule();
     });
 
     @PostConstruct
