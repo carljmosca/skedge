@@ -234,7 +234,6 @@ public class ScheduleListView extends MVerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
     }
 
 }

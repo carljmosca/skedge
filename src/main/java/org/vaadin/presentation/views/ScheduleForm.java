@@ -82,7 +82,8 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
                         new MFormLayout(
                                 description,
                                 beginDate,
-                                endDate
+                                endDate,
+                                weekday
                         ).withFullWidth(),
                         shiftTable,
                         toolBar
@@ -116,8 +117,10 @@ public class ScheduleForm extends AbstractForm<ScheduleHeader> {
         setSavedHandler((ScheduleHeader entity1) -> {
             try {
                 // make EJB call to save the entity
-                entity1.getShifts().clear();
-                entity1.getShifts().addAll(shiftBeans.getItemIds());
+                if (entity1.getShifts() != null) {
+                    entity1.getShifts().clear();
+                    entity1.getShifts().addAll(shiftBeans.getItemIds());
+                }
                 service.saveOrPersist(entity1);
                 // fire save event to let other UI components know about
                 // the change

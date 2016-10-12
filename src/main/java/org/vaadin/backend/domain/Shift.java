@@ -6,12 +6,14 @@
 package org.vaadin.backend.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Min;
@@ -44,6 +46,10 @@ public class Shift implements Serializable {
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private ScheduleHeader scheduleHeader;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date shiftStart;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date shiftEnd;
 
     public int getId() {
         return id;
@@ -83,6 +89,22 @@ public class Shift implements Serializable {
 
     public void setScheduleHeader(ScheduleHeader scheduleHeader) {
         this.scheduleHeader = scheduleHeader;
+    }
+
+    public Date getShiftStart() {
+        return shiftStart;
+    }
+
+    public void setShiftStart(Date shiftStart) {
+        this.shiftStart = shiftStart;
+    }
+
+    public Date getShiftEnd() {
+        return shiftEnd;
+    }
+
+    public void setShiftEnd(Date shiftEnd) {
+        this.shiftEnd = shiftEnd;
     }
 
 }

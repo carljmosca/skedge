@@ -8,6 +8,7 @@ package org.vaadin.backend.domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,6 +33,7 @@ import javax.validation.constraints.NotNull;
             query = "SELECT c FROM ScheduleHeader c WHERE LOWER(c.description) LIKE :filter OR LOWER(c.description) LIKE :filter"),})
 
 @Entity
+@Cacheable(false)
 public class ScheduleHeader implements Serializable {
     
     @Id
@@ -55,7 +57,7 @@ public class ScheduleHeader implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "scheduleHeader", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ScheduleDetail> scheduleDetails;
     
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "scheduleHeader", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "scheduleHeader", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Shift> shifts;
 
     public int getId() {

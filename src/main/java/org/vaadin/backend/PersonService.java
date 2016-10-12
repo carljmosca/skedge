@@ -42,7 +42,7 @@ public class PersonService {
             return findAll();
         }
         filter = filter.toLowerCase();
-        return entityManager.createNamedQuery("Customer.findByName",
+        return entityManager.createNamedQuery("Person.findByName",
                 Person.class)
                 .setParameter("filter", filter + "%").getResultList();
     }
